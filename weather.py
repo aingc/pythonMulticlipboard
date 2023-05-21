@@ -9,6 +9,9 @@ def getFileContents(filename):
     except FileNotFoundError:
         print("'%s' file not found" % filename)
 
+def kelvinToFahrenheit(kelvin):
+    return kelvin * 1.8 - 459.67
+
 API_KEY = getFileContents(filename)
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 
@@ -19,6 +22,9 @@ response = requests.get(requestUrl)
 
 if response.status_code == 200:
     data = response.json()
-    print(data)
+    weather = data['weather'][0]['description']
+    temperature = round(kelvinToFahrenheit(data['main']['temp']), 2)
+    print("Weather:", weather)
+    print("Temperature:", temperature, "Fahrenheit")
 else:
     print("An error occurred.")
